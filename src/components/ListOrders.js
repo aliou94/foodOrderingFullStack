@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useState } from 'react';
-import StudentService from '../services/StudentService';
+import OrderService from '../services/OrderService';
 
 
 
@@ -14,44 +14,50 @@ class ListOrders extends Component {
                 students:[] 
           }
 
-          this.addStudent=this.addStudent.bind(this);
-          this.editStudent=this.editStudent.bind(this);
-          this.deleteStudent=this.deleteStudent.bind(this);
-          this.viewStudent=this.viewStudent.bind(this);
+          this.addOrder=this.addOrder.bind(this);
+          this.editOrder=this.editOrder.bind(this);
+          this.deleteOrder=this.deleteOrder.bind(this);
+          this.viewOrder=this.viewOrder.bind(this);
       }
     
      componentDidMount() {
-         StudentService.getOrders().then((res) => {
+         OrderService.getOrders().then((res) => {
              this.setState({students:res.data});
          });
      }
      
-     addStudent()
+     addOrder()
      {
         
         this.props.history.push('/add-student');
      }
 
-     editStudent(id)
+     editOrder(id)
      {
-        this.props.history.push(`/update-student/${id}`);
+
+       
+        this.props.history.push(`/update-order/${id}`);
         
      }
 
-     deleteStudent(id)
+    //  deleteTaskFromDb(id) {
+    //     return axios.delete(TASKS_API_BASE_URL + "/delete-task/" + id);
+    // }
+
+     deleteOrder(id)
      {
-        this.props.history.push(`/delete-student/${id}`);
-        // StudentService.deleteStudent(id).then(res => {
-        //     this.setState({
-        //          student: this.state.students.filter(student => student.id !== id)
-        //     })
-        // })
+        this.props.history.push(`/delete-order/${id}`);
+        OrderService.deleteOrder(id).then(res => {
+            this.setState({
+                 student: this.state.students.filter(student => student.id !== id)
+            })
+        })
         
      }
 
-     viewStudent(id)
+     viewOrder(id)
      {
-        this.props.history.push(`/view-student/${id}`);
+        this.props.history.push(`/oder/${id}`);
         
      }
 
@@ -79,7 +85,7 @@ class ListOrders extends Component {
                             {
                                 this.state.students.map(
                                      student =>
-                                     <tr key={student.id}>
+                                     <tr key={student.orderID}>
                                          <td>{student.name}</td>
                                          <td>{student.address}</td>
                                          <td>{student.method}</td>
@@ -87,11 +93,11 @@ class ListOrders extends Component {
                                          <td>{student.quantity}</td>
                                          <td>${student.total}</td>
                                          <td>
-                                         <button onClick={() =>this.editStudent(student.id)}  className="btn btn-primary">Update</button>
+                                         <button onClick={() =>this.editOrder(student.orderID)}  className="btn btn-primary">Update</button>
                                          {" "} 
-                                            <button onClick={() =>this.deleteStudent(student.id)} className="btn btn-danger">Delete</button> 
+                                            <button onClick={() =>this.deleteOrder(student.orderID)} className="btn btn-danger">Delete</button> 
                                             {" "}
-                                            <button onClick={() =>this.viewStudent(student.id)} className="btn btn-primary">View</button> 
+                                            <button onClick={() =>this.viewOrder(student.orderID)} className="btn btn-primary">View</button> 
                                             {"  "}
                                          </td>
                                      </tr>

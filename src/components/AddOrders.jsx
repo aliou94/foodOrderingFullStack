@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import StudentService from '../services/StudentService';
+import StudentService from '../services/OrderService';
 
 class AddStudent extends Component {
     constructor(props)
@@ -17,13 +17,13 @@ class AddStudent extends Component {
         }
       
         
-         this.nameHandler = this.nameHandler.bind(this);
+        this.nameHandler = this.nameHandler.bind(this);
         this.quantityHandler = this.quantityHandler.bind(this);
 
     }//constructor
 
     componentDidMount() {
-        StudentService.getStudents().then((res) => {
+        StudentService.getMenu().then((res) => {
             this.setState({menu:res.data});
         });
     }
@@ -71,8 +71,7 @@ class AddStudent extends Component {
         Total()
         
         let order={
-            orderID:Math.round(Math.random()
-            ),
+            orderID:Math.floor(Math.random() * 10),
             name: this.state.name,
             address:this.state.address,
             method:this.state.method,
@@ -84,7 +83,7 @@ class AddStudent extends Component {
 
        
         StudentService.createStudent(order).then(res =>{
-                this.props.history.push('/students');  
+                this.props.history.push('/all-orders');  
             }).catch(err=>{
                 console.log("record not saved.");
             });
@@ -95,7 +94,7 @@ class AddStudent extends Component {
     }//closing save method
 
     cancel(){
-        this.props.history.push('/students');
+        this.props.history.push('/all-orders');
     }
 
 
@@ -115,12 +114,12 @@ class AddStudent extends Component {
                                    <div className="form-group">
                                       <label>customer Name: </label>
                                       <input placeholder="Name" name="name" className="form-control"
-                                         value={this.state.name} onChange={this.nameHandler} />
+                                         value={this.state.name} onChange={this.nameHandler} required/>
                                    </div>   
                                    <div className="form-group">
                                       <label>Delivery adress: </label>
                                       <input placeholder="adress" name="grade" className="form-control"
-                                         value={this.state.grade} onChange={this.adressHandler} />
+                                         value={this.state.grade} onChange={this.adressHandler} required/>
                                    </div>   
 
                                      <div className="form-group" onChange={this.methodHandler} >
@@ -151,6 +150,7 @@ class AddStudent extends Component {
                                     <label>Quantity: </label>
                                     <input placeholder="quantity" name="quantity" className="form-control"
                                       type="number"
+                                      required
                                     onChange={this.quantityHandler} />
                                     <br/>
                                     

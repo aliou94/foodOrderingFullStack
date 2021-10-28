@@ -1,12 +1,12 @@
 import React, { Component, useEffect, useState } from 'react';
-import StudentService from '../services/StudentService';
+import StudentService from '../services/OrderService';
 
 
 
 
 
 
-class ListStudents extends Component {
+class ListMenu extends Component {
       constructor(props)
       {
           super(props)
@@ -20,7 +20,7 @@ class ListStudents extends Component {
       }
     
      componentDidMount() {
-         StudentService.getStudents().then((res) => {
+         StudentService.getMenu().then((res) => {
              this.setState({students:res.data});
          });
      }
@@ -28,7 +28,7 @@ class ListStudents extends Component {
      addStudent()
      {
         
-        this.props.history.push('/add-student');
+        this.props.history.push('/add-orders');
      }
 
      editStudent(id)
@@ -89,4 +89,4 @@ class ListStudents extends Component {
     }
 }
 
-export default ListStudents;
+export default ListMenu;
